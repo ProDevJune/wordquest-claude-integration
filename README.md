@@ -55,7 +55,7 @@
 - **퀵 스타트 카드**: 주요 기능으로의 빠른 접근
 - **최근 활동**: 사용자의 학습 활동 요약
 
-![홈 인터페이스](docs/images/streamlit-home-interface.png){width=600px}
+<img src="docs/images/streamlit-home-interface.png" width="600" alt="홈 인터페이스">
 
 #### 💬 AI 채팅
 - **실시간 대화**: AI와 자연스러운 영어 대화
@@ -63,28 +63,28 @@
 - **학습 기록**: 모든 대화 내용을 데이터베이스에 저장
 - **히스토리 관리**: 채팅 기록 초기화 및 관리
 
-![AI 채팅 인터페이스](docs/images/streamlit-ai-chat-interface.png){width=600px}
+<img src="docs/images/streamlit-ai-chat-interface.png" width="600" alt="AI 채팅 인터페이스">
 
 #### 📊 학습 대시보드
 - **학습 통계**: 전체 학습 시간, 대화 수, 문법 검사 수 등
 - **주간 활동 차트**: 시각적 학습 진도 표시
 - **최근 기록**: 최근 학습 활동 목록
 
-![학습 대시보드](docs/images/streamlit-learning-dashboard.png){width=600px}
+<img src="docs/images/streamlit-learning-dashboard.png" width="600" alt="학습 대시보드">
 
 #### ✏️ 문법 검사
 - **영어 문장 분석**: 입력된 영어 문장의 문법 검토
 - **오류 수정 제안**: 구체적인 수정 방법 제시
 - **학습 기록**: 검사한 문장들을 데이터베이스에 저장
 
-![문법 검사 인터페이스](docs/images/streamlit-grammar-check.png){width=600px}
+<img src="docs/images/streamlit-grammar-check.png" width="600" alt="문법 검사 인터페이스">
 
 #### 📚 어휘 도움
 - **단어/표현 분석**: 영어 단어나 표현의 상세 설명
 - **예문 제공**: 실제 사용 예시와 문맥 설명
 - **학습 추적**: 검색한 어휘들의 학습 기록
 
-![어휘 도움 인터페이스](docs/images/streamlit-vocabulary-help.png){width=600px}
+<img src="docs/images/streamlit-vocabulary-help.png" width="600" alt="어휘 도움 인터페이스">
 
 #### 👤 프로필 관리
 - **개인 정보**: 사용자명, 이메일, 실명 관리
@@ -92,7 +92,7 @@
 - **계정 삭제**: 사용자 계정 완전 제거
 - **학습 통계 요약**: 개인 학습 성과 요약
 
-![프로필 인터페이스](docs/images/streamlit-profile-interface.png){width=600px}
+<img src="docs/images/streamlit-profile-interface.png" width="600" alt="프로필 인터페이스">
 
 ### 🔐 인증 시스템
 
@@ -101,14 +101,14 @@
 - **비밀번호 강도 검증**: 보안을 위한 강력한 비밀번호 요구사항
 - **중복 확인**: 사용자명과 이메일 중복 검사
 
-![회원가입 인터페이스](docs/images/streamlit-signup-interface.png){width=600px}
+<img src="docs/images/streamlit-signup-interface.png" width="600" alt="회원가입 인터페이스">
 
 #### 🔑 로그인
 - **이메일/비밀번호 인증**: 안전한 로그인 시스템
 - **JWT 토큰**: 보안을 위한 JSON Web Token 사용
 - **세션 관리**: 로그인 상태 유지 및 관리
 
-![로그인 인터페이스](docs/images/streamlit-login-interface.png){width=600px}
+<img src="docs/images/streamlit-login-interface.png" width="600" alt="로그인 인터페이스">
 
 ---
 
@@ -692,7 +692,7 @@ AssertionError: server.port does not work when global.developmentMode is true
    - 데이터베이스 연결 상태
    - API 상태
 
-![디버그 모드](docs/images/streamlit-debug-mode.png){width=500px}
+<img src="docs/images/streamlit-debug-mode.png" width="500" alt="디버그 모드">
 
 #### 로그 확인
 ```bash
