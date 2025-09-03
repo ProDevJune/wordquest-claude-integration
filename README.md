@@ -2,53 +2,43 @@
 
 ## 📋 프로젝트 개요
 
-**WordQuest Claude Integration**은 LangChain을 활용하여 Claude Code와 연동하는 영어 학습 질의응답 시스템입니다. 이 프로젝트는 Upstage AI Lab 7기 개인 과제로 개발되었으며, WordQuest 영어 학습 플랫폼과의 연동을 통해 실용적인 AI 애플리케이션을 구현합니다.
+**WordQuest Claude Integration**은 Streamlit을 활용하여 OpenAI와 Solar API를 연동하는 영어 학습 질의응답 시스템입니다. 이 프로젝트는 Upstage AI Lab 7기 개인 과제로 개발되었으며, WordQuest 영어 학습 플랫폼과의 연동을 통해 실용적인 AI 애플리케이션을 구현합니다.
 
 ## 🎯 주요 기능
 
-### 1. LangChain 기반 Claude Code 연동
-- **Claude Code 모델**을 활용한 고성능 영어 학습 지원
-- **LangChain 프레임워크**를 통한 체계적인 AI 애플리케이션 구현
-- **Chain, Memory, Tool, Agent** 등 LangChain 핵심 기능 활용
+### 1. AI 기반 영어 학습 시스템
+- **OpenAI API**와 **Solar API**를 활용한 고성능 AI 응답
+- **Streamlit** 기반의 직관적인 웹 인터페이스
+- **실시간 AI 채팅**을 통한 영어 학습 지원
 
-### 2. 영어 질의응답 시스템
-- 영어 문법, 어휘, 표현에 대한 실시간 질의응답
-- 문맥을 고려한 맞춤형 학습 조언 제공
-- 학습자 수준에 따른 적응형 답변 생성
+### 2. 영어 학습 도구
+- **AI 채팅**: 실시간 영어 학습 대화
+- **문법 검사**: AI 기반 영어 문법 검사 및 교정
+- **어휘 도움**: 어휘 수준 분석 및 개선 제안
+- **학습 대시보드**: 개인별 학습 진도 및 통계
 
-### 3. WordQuest 연동 인터페이스
-- WordQuest 플랫폼과의 원활한 연동
-- 사용자 학습 데이터 기반 개인화된 답변
-- 학습 진도 및 성과 분석 통합
+### 3. 사용자 관리 시스템
+- **회원가입/로그인**: JWT 기반 인증 시스템
+- **프로필 관리**: 사용자 정보 및 설정 관리
+- **학습 기록**: 모든 학습 활동의 자동 저장 및 추적
 
 ## 🏗️ 프로젝트 구조
 
 ```
 wordquest-claude-integration/
-├── langchain-claude/           # LangChain + Claude Code 구현
-│   ├── __init__.py
-│   ├── claude_llm.py          # Claude Code LLM 래퍼
-│   ├── chains.py              # LangChain 체인 구현
-│   ├── memory.py              # 대화 메모리 관리
-│   └── tools.py               # 커스텀 도구들
-├── wordquest-connector/        # WordQuest 연동 인터페이스
-│   ├── __init__.py
-│   ├── api_client.py          # WordQuest API 클라이언트
-│   ├── data_mapper.py         # 데이터 매핑 로직
-│   └── auth.py                # 인증 처리
-├── english-qa-system/          # 영어 질의응답 시스템
-│   ├── __init__.py
-│   ├── qa_engine.py           # 질의응답 엔진
-│   ├── prompt_templates.py    # 프롬프트 템플릿
-│   └── response_processor.py  # 응답 후처리
-├── examples/                   # 사용 예시 및 데모
-│   ├── basic_qa.py            # 기본 Q&A 예시
-│   ├── wordquest_integration.py # WordQuest 연동 예시
-│   └── advanced_features.py   # 고급 기능 데모
-├── docs/                       # 문서
-│   ├── setup_guide.md         # 설정 가이드
-│   ├── api_reference.md       # API 레퍼런스
-│   └── integration_guide.md   # WordQuest 연동 가이드
+├── main.py                    # Streamlit 메인 애플리케이션
+├── run_app.py                 # 앱 실행 스크립트
+├── app/                       # 애플리케이션 모듈
+│   ├── core/                  # 핵심 기능
+│   │   ├── config.py          # 설정 관리
+│   │   ├── database.py        # WordQuest DB 연결
+│   │   └── security.py        # 보안 및 인증
+│   ├── services/              # 비즈니스 로직
+│   │   ├── auth_service.py    # 사용자 인증
+│   │   ├── ai_service.py      # AI API 연동
+│   │   └── learning_service.py # 학습 데이터 관리
+│   └── utils/                 # 유틸리티
+├── langchain_claude/          # 기존 LangChain 모듈
 ├── requirements.txt            # 의존성 관리
 ├── env.example                # 환경 변수 예시
 └── README.md                  # 프로젝트 설명
@@ -78,99 +68,77 @@ pip install -r requirements.txt
 cp env.example .env
 
 # .env 파일에서 API 키 설정
-# ANTHROPIC_API_KEY=your_actual_api_key_here
+OPENAI_API_KEY=your_openai_api_key_here
+SOLAR_API_KEY=your_solar_api_key_here
+JWT_SECRET_KEY=your_jwt_secret_key_here
 ```
 
-### 3. 기본 사용 예시
+### 3. 데이터베이스 설정
 
-```python
-from langchain_claude.claude_llm import ClaudeLLM
-from english_qa_system.qa_engine import EnglishQAEngine
+```bash
+# WordQuest PostgreSQL 데이터베이스가 실행 중인지 확인
+# 기본 설정: localhost:5432/wordquest
+```
 
-# Claude Code LLM 초기화
-claude_llm = ClaudeLLM()
+### 4. 앱 실행
 
-# 영어 Q&A 엔진 초기화
-qa_engine = EnglishQAEngine(claude_llm)
+```bash
+# 실행 스크립트 사용 (권장)
+python run_app.py
 
-# 질의응답 실행
-question = "What's the difference between 'affect' and 'effect'?"
-response = qa_engine.ask(question)
-print(response)
+# 또는 직접 Streamlit 실행
+streamlit run main.py --server.port 8001
 ```
 
 ## 🔧 주요 컴포넌트
 
-### LangChain Claude 모듈
-- **ClaudeLLM**: Claude Code 모델을 LangChain LLM으로 래핑
-- **EnglishQAChain**: 영어 학습에 특화된 체인 구현
-- **ConversationMemory**: 대화 컨텍스트 메모리 관리
-- **CustomTools**: 영어 학습 도구들 (문법 검사, 어휘 분석 등)
+### AI 서비스 (OpenAI + Solar API)
+- **OpenAI API**: 안정적이고 성숙한 AI 서비스
+- **Solar API**: 한국어 성능이 우수한 Upstage AI 서비스
+- **이중 백업**: 한 API가 장애 시 다른 API로 자동 전환
 
-### WordQuest 연동 모듈
-- **WordQuestAPIClient**: WordQuest API와의 통신
-- **UserDataMapper**: 사용자 학습 데이터 매핑
-- **LearningProgressTracker**: 학습 진도 추적
+### 사용자 인증 시스템
+- **JWT 토큰**: 안전한 사용자 인증
+- **비밀번호 해싱**: bcrypt를 사용한 보안 강화
+- **입력 검증**: 사용자 입력의 안전성 보장
 
-### 영어 Q&A 시스템
-- **QuestionAnalyzer**: 질문 분석 및 분류
-- **ResponseGenerator**: Claude Code를 활용한 응답 생성
-- **AnswerValidator**: 답변 품질 검증
+### 학습 데이터 관리
+- **자동 저장**: 모든 학습 활동의 자동 기록
+- **진도 추적**: 개인별 학습 진도 및 통계
+- **WordQuest DB 공유**: 기존 데이터베이스 활용
 
 ## 📚 사용 예시
 
-### 기본 영어 질의응답
+### AI 채팅
+- 실시간으로 AI와 영어 학습 대화
+- 한국어/영어 혼용 질문 가능
+- Solar API 선택으로 한국어 성능 향상
 
-```python
-from english_qa_system.qa_engine import EnglishQAEngine
+### 문법 검사
+- 영어 문장/문단 입력
+- AI 기반 문법 오류 검사 및 교정
+- 개선 제안 및 학습 포인트 제공
 
-qa_engine = EnglishQAEngine()
-
-# 문법 질문
-response = qa_engine.ask("When should I use 'who' vs 'whom'?")
-print(response)
-
-# 어휘 질문
-response = qa_engine.ask("What's the difference between 'big' and 'large'?")
-print(response)
-```
-
-### WordQuest 연동 활용
-
-```python
-from wordquest_connector.api_client import WordQuestAPIClient
-from english_qa_system.qa_engine import EnglishQAEngine
-
-# WordQuest API 클라이언트 초기화
-wordquest_client = WordQuestAPIClient()
-
-# 사용자 학습 데이터 가져오기
-user_data = wordquest_client.get_user_learning_data(user_id="123")
-
-# 개인화된 Q&A 엔진 초기화
-qa_engine = EnglishQAEngine(user_context=user_data)
-
-# 개인화된 질의응답
-response = qa_engine.ask("I'm struggling with past perfect tense")
-print(response)
-```
+### 어휘 도움
+- 영어 텍스트 어휘 수준 분석
+- 어려운 단어 상세 설명
+- 학습 추천 단어 및 전략 제시
 
 ## 🧪 테스트
 
 ```bash
-# 전체 테스트 실행
-pytest
+# 환경 테스트
+python test_environment.py
 
-# 특정 모듈 테스트
-pytest tests/test_claude_llm.py
-pytest tests/test_qa_engine.py
+# 앱 실행 테스트
+python run_app.py
 ```
 
 ## 📖 문서
 
-- [설정 가이드](docs/setup_guide.md)
-- [API 레퍼런스](docs/api_reference.md)
-- [WordQuest 연동 가이드](docs/integration_guide.md)
+- [설정 가이드](docs/setup-guide.md)
+- [API 레퍼런스](docs/api-reference.md)
+- [기술 설계](docs/technical-design.md)
 
 ## 🤝 기여하기
 
@@ -187,15 +155,15 @@ pytest tests/test_qa_engine.py
 ## 📞 연락처
 
 - **개발자**: ProDevJune
-- **이메일**: [이메일 주소]
 - **GitHub**: [https://github.com/ProDevJune](https://github.com/ProDevJune)
 
 ## 🙏 감사의 말
 
-- [LangChain](https://github.com/langchain-ai/langchain) - 강력한 LLM 애플리케이션 프레임워크
-- [Anthropic](https://www.anthropic.com/) - Claude Code 모델 제공
+- [Streamlit](https://streamlit.io/) - 빠르고 직관적인 웹앱 개발
+- [OpenAI](https://openai.com/) - GPT 모델 제공
+- [Upstage](https://upstage.ai/) - Solar API 제공
 - [WordQuest](https://github.com/ProDevJune/WordQuest) - 영어 학습 플랫폼
 
 ---
 
-**Upstage AI Lab 7기 개인 과제** - LangChain을 활용한 Claude Code 연동 프로젝트
+**Upstage AI Lab 7기 개인 과제** - Streamlit 기반 OpenAI + Solar API 연동 프로젝트

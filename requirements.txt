@@ -11,6 +11,9 @@ fastapi==0.115.0
 uvicorn==0.30.6
 pydantic==2.9.0
 
+# Streamlit (메인 웹 인터페이스)
+streamlit==1.32.0
+
 # HTTP 클라이언트
 httpx==0.27.0
 requests==2.32.3
@@ -21,9 +24,13 @@ python-dotenv==1.0.1
 # 로깅
 loguru==0.7.2
 
-# 데이터베이스
+# 데이터베이스 (Python 3.11 호환)
 psycopg2-binary==2.9.9
 sqlalchemy==2.0.36
+
+# 보안 및 인증
+passlib[bcrypt]==1.7.4
+PyJWT==2.8.0
 
 # 테스트
 pytest==8.3.3
