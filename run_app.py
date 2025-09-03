@@ -86,7 +86,7 @@ def main():
         cmd = [
             str(venv_path / "bin" / "python"), "-m", "streamlit", "run", "main.py",
             "--server.port", "9001",
-            "--server.address", "0.0.0.0",
+            "--server.address", "localhost",
             "--server.headless", "true"
         ]
         

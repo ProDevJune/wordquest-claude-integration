@@ -34,7 +34,7 @@ class Settings(BaseSettings):
     
     # Solar API 설정
     SOLAR_API_KEY: Optional[str] = os.getenv("SOLAR_API_KEY")
-    SOLAR_MODEL: str = os.getenv("SOLAR_MODEL", "solar-1-mini")
+    SOLAR_MODEL: str = os.getenv("SOLAR_MODEL", "solar-mini-250422")
     SOLAR_BASE_URL: str = os.getenv("SOLAR_BASE_URL", "https://api.upstage.ai/v1")
     
     # JWT 설정
@@ -51,8 +51,8 @@ class Settings(BaseSettings):
     LOG_FILE: Optional[str] = os.getenv("LOG_FILE")
     
     # 웹서버 설정
-    HOST: str = os.getenv("HOST", "0.0.0.0")
-    PORT: int = int(os.getenv("PORT", "8001"))
+    HOST: str = os.getenv("HOST", "localhost")
+    PORT: int = int(os.getenv("PORT", "9001"))
     
     # 캐시 설정
     REDIS_URL: Optional[str] = os.getenv("REDIS_URL")
