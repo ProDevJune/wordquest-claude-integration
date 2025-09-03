@@ -359,7 +359,7 @@ def show_home_page():
                 recent_activities = learning_service.get_recent_activities(st.session_state.user_id, limit=5)
                 if recent_activities:
                     for activity in recent_activities:
-                        st.markdown(f"- **{activity['activity_type']}**: {activity['description']} ({activity['created_at']})")
+                        st.markdown(f"- **{activity['type']}**: {activity['description']} ({activity['created_at']})")
                 else:
                     st.info("아직 학습 활동이 없습니다. 첫 번째 학습을 시작해보세요!")
             except Exception as e:
@@ -493,7 +493,7 @@ def show_dashboard_page():
             recent_activities = learning_service.get_recent_activities(st.session_state.user_id, limit=10)
             if recent_activities:
                 for activity in recent_activities:
-                    st.markdown(f"- **{activity['activity_type']}**: {activity['description']} ({activity['created_at']})")
+                    st.markdown(f"- **{activity['type']}**: {activity['description']} ({activity['created_at']})")
             else:
                 st.info("아직 학습 기록이 없습니다.")
                 

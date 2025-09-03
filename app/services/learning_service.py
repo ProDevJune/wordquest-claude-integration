@@ -171,6 +171,7 @@ class LearningService:
     def get_recent_activities(self, user_id: int, limit: int = 10) -> List[Dict[str, Any]]:
         """최근 학습 활동 조회"""
         try:
+            # 먼저 learning_activities 테이블에서 조회 시도
             query = """
             SELECT activity_type, description, created_at, metadata
             FROM claude_integration_learning_activities 
@@ -181,21 +182,94 @@ class LearningService:
             
             result = self.db.execute_query(query, (user_id, limit))
             
-            activities = []
-            for row in result:
-                activity = {
-                    'type': row['activity_type'],
-                    'description': row['description'],
-                    'created_at': self._format_datetime(row['created_at']),
-                    'metadata': row.get('metadata', {})
-                }
-                activities.append(activity)
+            # 결과가 있으면 반환
+            if result:
+                activities = []
+                for row in result:
+                    activity = {
+                        'type': row['activity_type'],
+                        'description': row['description'],
+                        'created_at': self._format_datetime(row['created_at']),
+                        'metadata': row.get('metadata', {})
+                    }
+                    activities.append(activity)
+                return activities
             
-            return activities
+            # learning_activities에 데이터가 없으면 다른 테이블에서 대체 데이터 생성
+            logger.info(f"사용자 {user_id}의 learning_activities 데이터가 없어 대체 데이터를 생성합니다.")
+            
+            # 채팅 메시지, 문법 검사, 어휘 분석에서 최근 활동 생성
+            activities = []
+            
+            # 최근 채팅 메시지
+            chat_query = """
+            SELECT user_message, created_at
+            FROM claude_integration_chat_messages 
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+            LIMIT %s
+            """
+            chat_result = self.db.execute_query(chat_query, (user_id, limit))
+            
+            for row in chat_result:
+                activities.append({
+                    'type': 'chat',
+                    'description': f"AI와의 영어 학습 대화: {row['user_message'][:50]}...",
+                    'created_at': self._format_datetime(row['created_at']),
+                    'metadata': {'source': 'chat_messages'}
+                })
+            
+            # 최근 문법 검사
+            grammar_query = """
+            SELECT original_text, created_at
+            FROM claude_integration_grammar_checks 
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+            LIMIT %s
+            """
+            grammar_result = self.db.execute_query(grammar_query, (user_id, limit))
+            
+            for row in grammar_result:
+                activities.append({
+                    'type': 'grammar_check',
+                    'description': f"문법 검사 완료: {row['original_text'][:50]}...",
+                    'created_at': self._format_datetime(row['created_at']),
+                    'metadata': {'source': 'grammar_checks'}
+                })
+            
+            # 최근 어휘 분석
+            vocab_query = """
+            SELECT original_text, created_at
+            FROM claude_integration_vocabulary_checks 
+            WHERE user_id = %s
+            ORDER BY created_at DESC
+            LIMIT %s
+            """
+            vocab_result = self.db.execute_query(vocab_query, (user_id, limit))
+            
+            for row in vocab_result:
+                activities.append({
+                    'type': 'vocabulary_check',
+                    'description': f"어휘 분석 완료: {row['original_text'][:50]}...",
+                    'created_at': self._format_datetime(row['created_at']),
+                    'metadata': {'source': 'vocabulary_checks'}
+                })
+            
+            # 날짜순으로 정렬하고 limit 적용
+            activities.sort(key=lambda x: x['created_at'], reverse=True)
+            return activities[:limit]
             
         except Exception as e:
             logger.error(f"최근 학습 활동 조회 중 오류: {e}")
-            return []
+            # 오류 발생 시 기본 활동 반환
+            return [
+                {
+                    'type': 'system',
+                    'description': '학습 활동을 불러오는 중입니다...',
+                    'created_at': '방금 전',
+                    'metadata': {'source': 'fallback'}
+                }
+            ]
     
     def get_weekly_activities(self, user_id: int) -> Dict[str, int]:
         """주간 학습 활동 통계"""
